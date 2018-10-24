@@ -307,6 +307,32 @@ void Scenario3::radioFile_Checked(Platform::Object^ sender, Windows::UI::Xaml::R
 void Scenario3::btnPlay_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     StartDevice();
+
+	auto work = []()
+	{
+		int i = 0;
+		int d = 1;
+		while (true)
+		{
+			double s = sin((double)i / INT_MAX);
+			if (i % 100000000 == 0)
+			{
+				char buff[40];
+				sprintf_s(buff, "%i %f\n", i, s);
+				OutputDebugStringA(buff);
+			}
+			d = d == 1 ? (i < INT_MAX ? 1 : -1) : (i > INT_MAX ? -1 : 1);
+			i += d;
+		}
+	};
+
+	std::thread(work).detach();
+	std::thread(work).detach();
+	std::thread(work).detach();
+
+	work();
+	
+
 }
 
 void Scenario3::btnPause_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)

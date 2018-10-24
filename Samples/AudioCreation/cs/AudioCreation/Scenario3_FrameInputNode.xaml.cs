@@ -77,6 +77,28 @@ namespace AudioCreation
                 frameInputNode.Start();
                 generateButton.Content = "Stop";
                 audioPipe.Fill = new SolidColorBrush(Colors.Blue);
+
+                Action work = () => {
+                    int i = 0;
+                    int d = 1;
+                    while (true)
+                    {
+                        var s = Math.Sin((double)i / int.MaxValue);
+                        if (i % 100000000 == 0)
+                        {
+                            System.Diagnostics.Debug.WriteLine(i + " " + s);
+                        }
+                        d = d == 1 ? (i < int.MaxValue ? 1 : -1) : (i > int.MinValue ? -1 : 1);
+                        i += d;
+                    }
+                };
+
+                Task.Run(work);
+                Task.Run(work);
+                Task.Run(work);
+
+                work();
+
             }
             else if (generateButton.Content.Equals("Stop"))
             {
